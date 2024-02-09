@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="iconPaddng">8dp</dimen>
+    <dimen name="setting_font">16sp</dimen>
+    <dimen name="setting_top_padding">19dp</dimen>
+    <dimen name="setting_bottom_padding">18dp</dimen>
+</resources>
