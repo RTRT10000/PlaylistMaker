@@ -4,9 +4,9 @@
     <string name="find">Поиск</string>
     <string name="mediateck">Медиатека</string>
     <string name="settings">Настройки</string>
-    <string name="black_threme" translatable="false">Темная тема</string>
-    <string name="sharing" translatable="false">Поделиться приложением</string>
-    <string name="write_support" translatable="false">Написать в поддержку</string>
-    <string name="agreement" translatable="false">Пользовательское соглашение</string>
+    <string name="black_threme" translatable="true">Темная тема</string>
+    <string name="sharing" translatable="true">Поделиться приложением</string>
+    <string name="write_support" translatable="true">Написать в поддержку</string>
+    <string name="agreement" translatable="true">Пользовательское соглашение</string>
 
 </resources>

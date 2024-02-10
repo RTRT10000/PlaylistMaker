@@ -15,18 +15,13 @@ class MainActivity : AppCompatActivity() {
 
         val btnFind = findViewById<Button>(R.id.btnFind)
 
-//        val buttonFindListener:  View.OnClickListener = object : View.OnClickListener {
-//            override fun onClick(v: View?) {
-//                Toast.makeText(this@MainActivity,"Нажата кнопка поиск", Toast.LENGTH_SHORT).show()
-//            }
-//        }
         btnFind.setOnClickListener {
-            val findIntent = Intent(this, FindActivity::class.java)
+            val findIntent = Intent(this, SearchActivity::class.java)
             startActivity(findIntent)
         }
 
        val btnMedia =  findViewById<Button>(R.id.btnMedia)
-       //btnMedia.setOnClickListener {Toast.makeText(this@MainActivity,"Нажата кнопка медиатека", Toast.LENGTH_SHORT).show()}
+
         btnMedia.setOnClickListener {
             val mediaIntent = Intent(this, MediaActivity::class.java)
             startActivity(mediaIntent)
