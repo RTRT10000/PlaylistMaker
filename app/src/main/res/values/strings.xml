@@ -8,5 +8,6 @@
     <string name="sharing" translatable="true">Поделиться приложением</string>
     <string name="write_support" translatable="true">Написать в поддержку</string>
     <string name="agreement" translatable="true">Пользовательское соглашение</string>
+    <string name="search" translatable="true">Поиск</string>
 
 </resources>

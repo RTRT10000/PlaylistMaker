@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="?attr/settings_activity_background"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <LinearLayout
@@ -13,102 +14,68 @@
         <ImageView
            android:layout_width="wrap_content"
            android:layout_height="wrap_content"
-           android:layout_gravity="center"
-           android:src="@drawable/arrow_back"/>
+           android:layout_gravity="left"
+           android:src="@drawable/arrow_back"
+           app:tint="?attr/settings_activity_icon_color"/>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/settings"
             android:textSize="@dimen/sp_22"
+            android:fontFamily="@font/ys_display_medium"
             android:layout_marginLeft="@dimen/dp_24"
-            android:textColor="@color/black"/>
+            android:textColor="?attr/settings_activity_primary_color"/>
     </LinearLayout>
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="34dp"
-        android:padding="@dimen/dp_16">
+        style="@style/SettingsMenuFrameLayoutStyle"
+        android:layout_marginTop="34dp">
 
        <TextView
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
            android:text="@string/black_threme"
-           android:textSize="@dimen/setting_font"
-           android:layout_gravity="start"
-           android:textColor="@color/black"/>
+           style="@style/SettingsMenuTextViewStyle"/>
 
         <Switch
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:layout_gravity="end"/>
-
+           style="@style/SettingsMenuImageView"/>
     </FrameLayout>>
 
      <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
-        android:padding="@dimen/dp_16">
+         style="@style/SettingsMenuFrameLayoutStyle">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:id="@+id/tvShare"
             android:text="@string/sharing"
-            android:textSize="@dimen/setting_font"
-            android:layout_gravity="start"
-            android:textColor="@color/black"/>
+            style="@style/SettingsMenuTextViewStyle"/>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            style="@style/SettingsMenuImageView"
             android:src="@drawable/share"/>
-
     </FrameLayout>>
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
-        android:padding="@dimen/dp_16">
+        style="@style/SettingsMenuFrameLayoutStyle">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/tvWriteSupport"
             android:text="@string/write_support"
-            android:textSize="@dimen/setting_font"
-            android:layout_gravity="start"
-            android:textColor="@color/black"/>
+            style="@style/SettingsMenuTextViewStyle"/>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            style="@style/SettingsMenuImageView"
             android:src="@drawable/support"/>
-
     </FrameLayout>>
 
     <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dp_10"
-        android:padding="@dimen/dp_16">
+        style="@style/SettingsMenuFrameLayoutStyle">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/tvAgreement"
             android:text="@string/agreement"
-            android:textSize="@dimen/setting_font"
-            android:layout_gravity="start"
-            android:textColor="@color/black"/>
+            style="@style/SettingsMenuTextViewStyle"/>
 
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
+            style="@style/SettingsMenuImageView"
             android:src="@drawable/arrow_forward"/>
     </FrameLayout>>
-
 </LinearLayout>
