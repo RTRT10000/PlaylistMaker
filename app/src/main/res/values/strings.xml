@@ -9,5 +9,10 @@
     <string name="write_support" translatable="true">Написать в поддержку</string>
     <string name="agreement" translatable="true">Пользовательское соглашение</string>
     <string name="search" translatable="true">Поиск</string>
+    <string name="settings_share" translatable="false">https://practicum.yandex.ru/android-developer/?from=catalog/</string>
+    <string name="settings_mail_message" translatable="false">Спасибо разработчикам и разработчицам за крутое приложение!</string>
+    <string name="settings_mail_subject" translatable="false">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
+    <string name="settings_mail" translatable="false">rt10000@ya.ru</string>
+    <string name="settings_agreement" translatable="false">https://yandex.ru/legal/practicum_offer/</string>
 
 </resources>
