@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="MainMenuButtonStyle" parent="Widget.MaterialComponents.Button">
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textSize">@dimen/sp_22</item>
+        <item name="android:fontFamily">@font/ys_display_medium</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="cornerRadius">@dimen/dp_16</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="iconGravity">textStart</item>
+        <item name="iconPadding">@dimen/iconPaddng</item>
+        <item name="iconTint">@color/black</item>
+    </style>>
+
+    <style name="SettingsMenuFrameLayoutStyle">
+       <item name="android:layout_width">match_parent</item>
+       <item name="android:layout_height">wrap_content</item>
+       <item name="android:layout_marginTop">@dimen/dp_10</item>
+       <item name="android:padding">@dimen/dp_16</item>
+    </style>
+
+    <style name="SettingsMenuTextViewStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/setting_font</item>
+        <item name="android:fontFamily">@font/ys_display_regular</item>
+        <item name="android:layout_gravity">start</item>
+        <item name="android:textColor">?attr/settings_activity_primary_color</item>
+        <item name="android:foreground">?attr/selectableItemBackground</item>
+    </style>
+
+    <style name="SettingsMenuImageView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">end</item>
+    </style>
+
+</resources>
+
+
+
