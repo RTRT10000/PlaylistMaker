@@ -17,7 +17,7 @@
         android:gravity="center"
         android:layout_height="@dimen/albom_art"
         android:layout_width="@dimen/albom_art"
-        android:src="@drawable/media"/>
+        android:src="@drawable/placeholder"/>
 
     <LinearLayout
         android:layout_width="0dp"
@@ -36,7 +36,7 @@
         android:textColor="?attr/search_activity_primary_color"
         android:fontFamily="@font/ys_display_regular"
         android:textSize="@dimen/sp_16"
-        android:maxLength="45"
+        android:maxLines="1"
         android:ellipsize="end"
         tools:text="Smells Like Teen SpiritSmells Like Teen SpiritSmells Like Teen Spirit"/>
 
@@ -48,11 +48,12 @@
          <TextView
              android:id="@+id/tvArtistName"
              android:layout_height="wrap_content"
-             android:layout_width="wrap_content"
+             android:layout_width="0dp"
              android:textColor="?attr/search_activity_dot_icon_Color"
              android:fontFamily="@font/ys_display_regular"
              android:textSize="@dimen/sp_11"
-             android:maxLength="40"
+             android:maxLines="1"
+             android:layout_weight="1"
              android:ellipsize="end"
              tools:text="Nirvana"/>
 
@@ -61,10 +62,10 @@
              android:layout_gravity="center_vertical"
              android:layout_marginLeft="@dimen/dp_5"
              android:layout_marginRight="@dimen/dp_5"
-             android:layout_height="@dimen/dp_8"
-             android:layout_width="@dimen/dp_8"
+             android:layout_height="@dimen/dp_3"
+             android:layout_width="@dimen/dp_3"
              app:tint="?attr/search_activity_dot_icon_Color"
-             android:src="@drawable/baseline_circle_24"/>
+             android:src="@drawable/ellipse_1"/>
 
          <TextView
              android:id="@+id/tvTrackTime"

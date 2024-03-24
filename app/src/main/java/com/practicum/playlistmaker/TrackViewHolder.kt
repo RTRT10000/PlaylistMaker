@@ -1,5 +1,7 @@
 package com.practicum.playlistmaker
 
+import android.content.Context
+import android.util.TypedValue
 import android.view.RoundedCorner
 import android.view.View
 import android.widget.ImageView
@@ -28,10 +30,17 @@ class TrackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         Glide.with(itemView)
             .load(track.artworkUrl100)
-            .placeholder(R.drawable.media)
+            .placeholder(R.drawable.placeholder)
             .centerCrop()
-            .transform(RoundedCorners(10))
+            .transform(RoundedCorners(dpToPx(10f,itemView.context)))
             .into(artImage)
+    }
+
+    fun dpToPx(dp: Float, context: Context): Int {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp,
+            context.resources.displayMetrics).toInt()
     }
 }
 
