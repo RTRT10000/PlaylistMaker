@@ -15,6 +15,7 @@
         <item name="search_activity_icon_color">@color/YP_Black</item>
         <item name="search_activity_edit_text_background">@color/YP_Light_Gray</item>
         <item name="search_activity_edit_text_textColor">@color/YP_Gray</item>
+        <item name="search_activity_dot_icon_Color">@color/light_gray</item>
 
 
 
