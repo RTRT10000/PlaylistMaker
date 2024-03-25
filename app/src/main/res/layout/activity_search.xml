@@ -31,21 +31,29 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/dp_16">
+        android:layout_height="wrap_content">
 
 
         <EditText
             android:id="@+id/inputEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_8"
+            android:layout_marginBottom="@dimen/dp_8"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_16"
+            android:paddingTop="@dimen/dp_7"
+            android:paddingBottom="@dimen/dp_7"
+            android:paddingLeft="@dimen/dp_14"
             android:layout_weight="1"
             android:hint="@string/search"
             android:maxLines="1"
             android:inputType="text"
             android:drawableLeft="@drawable/lupa"
             android:drawablePadding="@dimen/dp_10"
-            android:background="?attr/search_activity_edit_text_background"
+            android:background="@drawable/round_corner"
+            android:textSize="@dimen/sp_16"
+            android:fontFamily="@font/ys_text_regular"
             android:textColor="?attr/search_activity_edit_text_textColor"
             android:textColorHint="?attr/search_activity_edit_text_textColor"
             />
@@ -56,6 +64,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@android:drawable/ic_menu_close_clear_cancel"
+            android:background="@drawable/round_corner"
             android:visibility="gone"/>
 
     </LinearLayout>
