@@ -15,7 +15,11 @@
         <item name="search_activity_icon_color">@color/white</item>
         <item name="search_activity_edit_text_background">@color/YP_White</item>
         <item name="search_activity_edit_text_textColor">@color/YP_Black</item>
+        <item name="search_activity_dot_icon_Color">@color/white</item>
 
 
     </style>
 </resources>
+
+
+
