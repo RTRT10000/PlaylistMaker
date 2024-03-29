@@ -9,6 +9,7 @@
     <attr name="search_activity_primary_color"/>
     <attr name="search_activity_edit_text_background"/>
     <attr name="search_activity_edit_text_textColor"/>
+    <attr name="search_activity_dot_icon_Color"/>
 
 
 </resources>
