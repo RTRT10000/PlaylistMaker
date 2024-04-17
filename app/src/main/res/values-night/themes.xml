@@ -15,7 +15,11 @@
         <item name="search_activity_icon_color">@color/white</item>
         <item name="search_activity_edit_text_background">@color/YP_White</item>
         <item name="search_activity_edit_text_textColor">@color/YP_Black</item>
+        <item name="search_activity_edit_text_textColor_hint">@color/YP_Black</item>
         <item name="search_activity_dot_icon_Color">@color/white</item>
+        <item name="place_holder_not_found">@drawable/search_placeholder_dark</item>
+        <item name="place_holder_connection_error">@drawable/search_placeholder_net_dark</item>
+        <item name="search_activity_text_color_text_placeholder">@color/white</item>
 
 
     </style>

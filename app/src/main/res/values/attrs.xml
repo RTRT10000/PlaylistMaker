@@ -10,6 +10,11 @@
     <attr name="search_activity_edit_text_background"/>
     <attr name="search_activity_edit_text_textColor"/>
     <attr name="search_activity_dot_icon_Color"/>
+    <attr name="place_holder_not_found"/>
+    <attr name="place_holder_connection_error"/>
+    <attr name="search_activity_text_color_text_placeholder"/>
+    <attr name="search_activity_edit_text_textColor_hint"/>
+
 
 
 </resources>
