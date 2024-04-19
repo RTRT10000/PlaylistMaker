@@ -14,6 +14,7 @@
     <attr name="place_holder_connection_error"/>
     <attr name="search_activity_text_color_text_placeholder"/>
     <attr name="search_activity_edit_text_textColor_hint"/>
+    <attr name="clear_cancel_button"/>
 
 
 

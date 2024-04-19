@@ -20,6 +20,7 @@
         <item name="place_holder_not_found">@drawable/search_placeholder_light</item>
         <item name="place_holder_connection_error">@drawable/search_placeholder_net_light</item>
         <item name="search_activity_text_color_text_placeholder">@color/YP_Black</item>
+        <item name="clear_cancel_button">@drawable/clearbutton_light</item>
 
 
 

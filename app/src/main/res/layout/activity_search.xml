@@ -29,7 +29,7 @@
             android:textColor="?attr/search_activity_primary_color"/>
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -58,18 +58,18 @@
             android:fontFamily="@font/ys_text_regular"
             android:textColor="?attr/search_activity_edit_text_textColor"
             android:textColorHint="?attr/search_activity_edit_text_textColor_hint"
-            />
+           />
 
         <ImageView
             android:id="@+id/clearIcon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@android:drawable/ic_menu_close_clear_cancel"
-            android:background="@drawable/round_corner"
+            android:layout_gravity="end|center_vertical"
+            android:layout_marginRight="@dimen/dp_28"
+            android:src="?attr/clear_cancel_button"
             android:visibility="gone"/>
 
-    </LinearLayout>
+    </FrameLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
