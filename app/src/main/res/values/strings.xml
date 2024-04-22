@@ -14,5 +14,8 @@
     <string name="settings_mail_subject" translatable="false">Сообщение разработчикам и разработчицам приложения Playlist Maker</string>
     <string name="settings_mail" translatable="false">rt10000@ya.ru</string>
     <string name="settings_agreement" translatable="false">https://yandex.ru/legal/practicum_offer/</string>
+    <string name="nothing_found" translatable="false">Ничего не нашлось</string>
+    <string name ="something_went_wrong" translatable="false">Проблемы со связью\n\nЗагрузка не удалась. Проверьте подключение к интернету</string>
+    <string name="refresh" translatable="false">Обновить</string>
 
 </resources>
