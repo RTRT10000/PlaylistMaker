@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,5 +49,25 @@ class SettingsActivity : AppCompatActivity() {
           shareIntent.putExtra(Intent.EXTRA_TEXT, share)
           startActivity(Intent.createChooser(shareIntent,"Share with"))
         }
+
+
+        val themeSwitcher: SwitchMaterial = findViewById(R.id.themeSwitcher)
+
+
+
+        themeSwitcher.setOnCheckedChangeListener  {switcher, checked ->
+            (applicationContext as App).darkTheme = checked
+            val sharedPrefs = getSharedPreferences(PLAYLIST_PREFERENCES, MODE_PRIVATE)
+            sharedPrefs.edit()
+                .putBoolean(DARK_THEME,checked)
+                .apply()
+            (applicationContext as App).switchTheme(checked)
+        }
+
+        themeSwitcher.setChecked((applicationContext as App).darkTheme)
+
+
+
+
     }
 }

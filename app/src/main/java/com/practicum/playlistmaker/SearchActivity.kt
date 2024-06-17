@@ -163,6 +163,9 @@ class SearchActivity : AppCompatActivity() {
             }
         }
         inputEditText.addTextChangedListener(searchTextWatcher)
+
+        val sharedPref = getSharedPreferences(PLAYLIST_PREFERENCES, MODE_PRIVATE)
+        val searchHistory = SearchHistory(sharedPref)
     }
 
 
