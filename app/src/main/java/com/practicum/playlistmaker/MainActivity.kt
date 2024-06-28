@@ -2,6 +2,7 @@ package com.practicum.playlistmaker
 
 import android.app.Application
 import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -51,11 +52,13 @@ class MainActivity : AppCompatActivity() {
 class App : Application() {
 
     var darkTheme = false
+    lateinit var  sharedPref: SharedPreferences
+
 
     override fun onCreate() {
         super.onCreate()
-        val sharedPrefs = getSharedPreferences(PLAYLIST_PREFERENCES, MODE_PRIVATE)
-        darkTheme = sharedPrefs.getBoolean(DARK_THEME,false)
+        sharedPref = getSharedPreferences(PLAYLIST_PREFERENCES, Application.MODE_PRIVATE)
+        darkTheme = sharedPref.getBoolean(DARK_THEME,false)
     }
 
     fun switchTheme(darkThemeEnabled: Boolean) {

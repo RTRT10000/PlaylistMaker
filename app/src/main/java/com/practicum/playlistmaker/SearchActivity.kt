@@ -12,7 +12,9 @@ import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
+import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -42,17 +44,26 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var placeholderConnection: ImageView
     private lateinit var inputEditText: EditText
     private lateinit var placeholderText: TextView
+    private lateinit var historyRecycler: RecyclerView
+    private lateinit var historyConteiner: LinearLayout
+    private lateinit var btnClearHistoryList: Button
+    private lateinit var searchContainer: FrameLayout
+
 
 
 
     private  val trackList = ArrayList<Track>()
+    private var historyTrackList = ArrayList<Track>()
+
 
     private val adapter = TrackAdapter()
+    private val historyAdapter = TrackAdapter()
 
 
     companion object {
        const val INPUT_TEXT = "INPUT_TEXT"
        const val TEXT_DEF = ""
+
    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,15 +74,79 @@ class SearchActivity : AppCompatActivity() {
         placeholderConnection = findViewById(R.id.ivPlaceHolderConnect)
         refreshButton = findViewById(R.id.btnRefresh)
         placeholderText = findViewById(R.id.tvTextPlaceholder)
-        recycler = findViewById<RecyclerView>(R.id.rvTrackList)
+        recycler = findViewById(R.id.rvTrackList)
+        historyRecycler = findViewById(R.id.rvHistoryTrackList)
+        historyConteiner = findViewById(R.id.llHistoryConteiner)
+        searchContainer = findViewById(R.id.flSearch)
 
+
+        val searchHistory = SearchHistory(this)
         adapter.tracks = trackList
-
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = adapter
+        adapter.onTrackItemClickListener = searchHistory
+
+
+
+        historyTrackList = searchHistory.getHistoryTrackList()
+        historyAdapter.tracks = historyTrackList
+        historyRecycler.adapter = historyAdapter
+        historyRecycler.layoutManager = LinearLayoutManager(this)
+        btnClearHistoryList = findViewById(R.id.btnClearHistoryList)
+
+        btnClearHistoryList.setOnClickListener {
+            searchHistory.clearHistoryList()
+            historyTrackList.clear()
+            historyAdapter.notifyDataSetChanged()
+            historyConteiner.visibility = View.GONE
+        }
+
+
+
 
 
         inputEditText = findViewById<EditText>(R.id.inputEditText)
+
+
+        inputEditText.setOnFocusChangeListener { view, hasFocus ->
+            if (hasFocus && inputEditText.text.isEmpty() && historyTrackList.isNotEmpty()) {
+                historyTrackList = searchHistory.getHistoryTrackList()
+                historyAdapter.tracks = historyTrackList
+                historyAdapter.notifyDataSetChanged()
+                historyConteiner.visibility = View.VISIBLE
+                searchContainer.visibility = View.GONE
+
+            } else {
+                historyConteiner.visibility = View.GONE
+                searchContainer.visibility = View.VISIBLE
+            }
+        }
+
+        inputEditText.addTextChangedListener(object: TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+                if (inputEditText.hasFocus() && p0?.isEmpty() == true && historyTrackList.isNotEmpty()) {
+                    historyTrackList = searchHistory.getHistoryTrackList()
+                    historyAdapter.tracks = historyTrackList
+                    historyAdapter.notifyDataSetChanged()
+                    historyConteiner.visibility = View.VISIBLE
+                    searchContainer.visibility = View.GONE
+
+                } else {
+                    historyConteiner.visibility = View.GONE
+                    searchContainer.visibility = View.VISIBLE
+                }
+
+           }
+
+            override fun afterTextChanged(p0: Editable?) {
+            }
+
+        })
+
         inputEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 iTunesService.findTrack(inputEditText.text.toString()).enqueue(object :  Callback<TracksResponse>  {
@@ -164,8 +239,7 @@ class SearchActivity : AppCompatActivity() {
         }
         inputEditText.addTextChangedListener(searchTextWatcher)
 
-        val sharedPref = getSharedPreferences(PLAYLIST_PREFERENCES, MODE_PRIVATE)
-        val searchHistory = SearchHistory(sharedPref)
+
     }
 
 
