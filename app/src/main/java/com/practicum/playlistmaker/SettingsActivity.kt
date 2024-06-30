@@ -16,8 +16,7 @@ class SettingsActivity : AppCompatActivity() {
 
         val tvSettingsArrowBack = findViewById<ImageView>(R.id.tvSettingsArrowBack)
         tvSettingsArrowBack.setOnClickListener {
-           val  mainIntent = Intent(this, MainActivity::class.java)
-           startActivity(mainIntent)
+            this.finish()
         }
 
         val tvWriteSupport = findViewById<TextView>(R.id.tvWriteSupport)

@@ -219,8 +219,7 @@ class SearchActivity : AppCompatActivity() {
 
         val searchArrowBack = findViewById<ImageView>(R.id.searchArrowBack)
         searchArrowBack.setOnClickListener {
-            val mainIntent = Intent(this, MainActivity::class.java)
-            startActivity(mainIntent)
+            this.finish()
         }
 
         val searchTextWatcher = object : TextWatcher {
