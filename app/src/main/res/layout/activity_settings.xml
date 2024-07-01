@@ -29,17 +29,16 @@
             android:textColor="?attr/settings_activity_primary_color"/>
     </LinearLayout>
 
-    <FrameLayout
+    <com.google.android.material.switchmaterial.SwitchMaterial
+        android:id="@+id/themeSwitcher"
+        android:text="Темная тема"
         style="@style/SettingsMenuFrameLayoutStyle"
-        android:layout_marginTop="34dp">
+        android:layout_gravity="start"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-       <TextView
-           android:text="@string/black_threme"
-           style="@style/SettingsMenuTextViewStyle"/>
 
-        <Switch
-           style="@style/SettingsMenuImageView"/>
-    </FrameLayout>>
+
 
      <FrameLayout
          style="@style/SettingsMenuFrameLayoutStyle">

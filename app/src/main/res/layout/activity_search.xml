@@ -33,7 +33,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
         <EditText
             android:id="@+id/inputEditText"
             android:layout_width="match_parent"
@@ -68,17 +67,19 @@
             android:layout_marginRight="@dimen/dp_28"
             android:src="?attr/clear_cancel_button"
             android:visibility="gone"/>
-
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/flSearch"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvTrackList"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -105,8 +106,6 @@
                     android:layout_gravity="center_horizontal"
                     android:src="?attr/place_holder_connection_error"
                     android:visibility="gone"/>
-
-
             </FrameLayout>
 
 
@@ -144,21 +143,51 @@
                 android:textSize="@dimen/sp_14"
                 android:text="@string/refresh"
                 android:visibility="gone"/>
-
-
         </LinearLayout>
-
-
-
-
-
-
-
 
     </FrameLayout>
 
+    <LinearLayout
+        android:id="@+id/llHistoryConteiner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/search_history"
+            android:textSize="@dimen/sp_19"
+            android:layout_marginLeft="@dimen/dp_16"
+            android:layout_marginRight="@dimen/dp_16"
+            android:layout_marginTop="42dp"
+            android:gravity="center"
+            android:fontFamily="@font/ys_display_medium"
+            android:textColor="?attr/search_activity_primary_color"/>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvHistoryTrackList"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/dp_16"
+            android:layout_weight="1" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnClearHistoryList"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:foreground="?attr/selectableItemBackground"
+            android:backgroundTint="?attr/search_activity_primary_color"
+            app:cornerRadius="@dimen/dp_54"
+            android:textColor="?attr/search_activity_background"
+            android:textAllCaps="false"
+            android:fontFamily="@font/ys_display_medium"
+            android:textSize="@dimen/sp_14"
+            android:text="@string/search_clear"
+                        />
+    </LinearLayout>
 
 
 </LinearLayout>
