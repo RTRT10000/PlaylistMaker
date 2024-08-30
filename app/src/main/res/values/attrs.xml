@@ -15,7 +15,12 @@
     <attr name="search_activity_text_color_text_placeholder"/>
     <attr name="search_activity_edit_text_textColor_hint"/>
     <attr name="clear_cancel_button"/>
-
+    <attr name="arrow_back"/>
+    <attr name="audioplayer_activity_background"/>
+    <attr name="audioplayer_activity_primary_color"/>
+    <attr name="audioplayer_activity_play_button"/>
+    <attr name="audioplayeer_activity_favorite_button"/>
+    <attr name="audioplayeer_activity_addtoplaylist_button"/>
 
 
 </resources>
