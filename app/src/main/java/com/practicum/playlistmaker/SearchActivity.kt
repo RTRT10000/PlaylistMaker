@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -152,7 +153,10 @@ class SearchActivity : AppCompatActivity() {
                 iTunesService.findTrack(inputEditText.text.toString()).enqueue(object :  Callback<TracksResponse>  {
                     override fun onResponse(call: Call<TracksResponse>,
                                             response: Response<TracksResponse>) {
-                       if (response.code() == 200) {
+                        Log.d("my_con", "поиск!")
+                        val my_s: Int = response.code()
+                        Log.d("my_con", my_s.toString())
+                        if (response.code() == 200) {
                            trackList.clear()
                            if (response.body()?.results?.isNotEmpty() == true) {
                                trackList.addAll(response.body()?.results!!)
@@ -164,12 +168,14 @@ class SearchActivity : AppCompatActivity() {
                                showMessage("", true)
                            }
                        } else {
-                           showMessage(getString(R.string.something_went_wrong), false)
+                            showMessage("Есть код", false)
+                       // showMessage(getString(R.string.something_went_wrong), false)
                        }
                     }
 
                     override fun onFailure(call: Call<TracksResponse>, t: Throwable) {
-                        showMessage(getString(R.string.something_went_wrong), false)
+                        showMessage("OnFailure", false)
+                    // showMessage(getString(R.string.something_went_wrong), false)
                     }
                 }
 
@@ -182,6 +188,7 @@ class SearchActivity : AppCompatActivity() {
         }
 
         refreshButton.setOnClickListener {
+            Log.d("my_con", "рефреш!")
             iTunesService.findTrack(inputEditText.text.toString()).enqueue(object :  Callback<TracksResponse>  {
                 override fun onResponse(call: Call<TracksResponse>,
                                         response: Response<TracksResponse>) {
