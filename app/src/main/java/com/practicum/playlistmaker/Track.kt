@@ -1,6 +1,8 @@
 package com.practicum.playlistmaker
 
 import java.io.Serializable
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 data class Track(
     val trackName: String,
@@ -15,4 +17,5 @@ data class Track(
    ) {
 
     fun getCoverArtwork() = artworkUrl100.replaceAfterLast('/',"512x512bb.jpg")
+    fun getFormatTimeMillis() = if (trackTimeMillis.length>0)  SimpleDateFormat("mm:ss", Locale.getDefault()).format(trackTimeMillis.toLong()) else ""
 }

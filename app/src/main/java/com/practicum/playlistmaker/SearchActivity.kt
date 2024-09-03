@@ -153,7 +153,6 @@ class SearchActivity : AppCompatActivity() {
                 iTunesService.findTrack(inputEditText.text.toString()).enqueue(object :  Callback<TracksResponse>  {
                     override fun onResponse(call: Call<TracksResponse>,
                                             response: Response<TracksResponse>) {
-                        Log.d("my_con", "поиск!")
                         val my_s: Int = response.code()
                         Log.d("my_con", my_s.toString())
                         if (response.code() == 200) {
@@ -168,14 +167,13 @@ class SearchActivity : AppCompatActivity() {
                                showMessage("", true)
                            }
                        } else {
-                            showMessage("Есть код", false)
-                       // showMessage(getString(R.string.something_went_wrong), false)
+                           showMessage(getString(R.string.something_went_wrong), false)
                        }
                     }
 
                     override fun onFailure(call: Call<TracksResponse>, t: Throwable) {
-                        showMessage("OnFailure", false)
-                    // showMessage(getString(R.string.something_went_wrong), false)
+                         Log.d("MY_TAG", "onFailure: $t")
+                         showMessage(getString(R.string.something_went_wrong), false)
                     }
                 }
 
@@ -188,7 +186,6 @@ class SearchActivity : AppCompatActivity() {
         }
 
         refreshButton.setOnClickListener {
-            Log.d("my_con", "рефреш!")
             iTunesService.findTrack(inputEditText.text.toString()).enqueue(object :  Callback<TracksResponse>  {
                 override fun onResponse(call: Call<TracksResponse>,
                                         response: Response<TracksResponse>) {
