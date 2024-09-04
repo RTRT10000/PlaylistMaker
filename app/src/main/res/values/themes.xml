@@ -9,7 +9,10 @@
         <item name="settings_activity_background">@color/white</item>
         <item name="settings_activity_primary_color">@color/YP_Black</item>
         <item name="settings_activity_icon_color">@color/YP_Black</item>
-        <!--      ACTIVITY_SEARCH -->
+        <item name="switchStyle">@style/SettingsMenuFrameLayoutStyle</item>
+
+
+    <!--      ACTIVITY_SEARCH -->
         <item name="search_activity_background">@color/white</item>
         <item name="search_activity_primary_color">@color/YP_Black</item>
         <item name="search_activity_icon_color">@color/YP_Black</item>

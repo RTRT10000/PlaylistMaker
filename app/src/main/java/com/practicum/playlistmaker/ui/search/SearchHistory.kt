@@ -1,19 +1,20 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.ui.search
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
-import android.net.Uri
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import android.util.Log
-import androidx.core.content.ContextCompat.startActivity
+import com.practicum.playlistmaker.ui.main.PLAYLIST_PREFERENCES
+import com.practicum.playlistmaker.ui.main.SEARCH_HISTORY_LIST
+import com.practicum.playlistmaker.domain.models.Track
+import com.practicum.playlistmaker.ui.player.PlayeerActivity
 
 class SearchHistory(
     val context: Context
-): OnTrackItemClickListener  {
+): OnTrackItemClickListener {
 
     val sharedPref = context.getSharedPreferences(PLAYLIST_PREFERENCES, AppCompatActivity.MODE_PRIVATE)
 

@@ -1,15 +1,12 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.ui.player
 
 import android.content.Context
 import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.util.TypedValue
 import android.view.View
-import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -17,8 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.gson.Gson
-import com.practicum.playlistmaker.SearchActivity.Companion.INPUT_TEXT
-import com.practicum.playlistmaker.SearchActivity.Companion.TEXT_DEF
+import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -81,7 +78,7 @@ class PlayeerActivity : AppCompatActivity() {
         val intent = getIntent()
         json = intent.getStringExtra(TRACK).toString()
 
-        val track: Track = Gson().fromJson(json,Track::class.java)
+        val track: Track = Gson().fromJson(json, Track::class.java)
 
 
        val artworkUrl512 = track.getCoverArtwork()
