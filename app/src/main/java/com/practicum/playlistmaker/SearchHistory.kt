@@ -35,8 +35,10 @@ class SearchHistory(
            .apply()
    }
 
-    override fun onTrackItemClick(trackItem: Track) {
+    override fun onTrackItemClick(trackItem: Track, context: Context) {
+
         val  trackList = getHistoryTrackList()
+
         if(trackList.isEmpty()) {
             trackList.add(trackItem)
             putHistoryTrackList(trackList)
@@ -44,10 +46,13 @@ class SearchHistory(
             processItem(trackItem, trackList)
         }
         val json = Gson().toJson(trackItem)
+        Log.d("MY_LOG", "onClick: $json")
         val playeerIntent = Intent(context, PlayeerActivity::class.java)
         playeerIntent.putExtra("track", json)
         context.startActivity(playeerIntent)
-          }
+
+
+    }
 
     fun processItem(trackItem: Track, trackList: ArrayList<Track>) {
         val index = trackList.indexOfFirst { it.trackId == trackItem.trackId }
@@ -76,6 +81,6 @@ class SearchHistory(
 }
 
  interface OnTrackItemClickListener {
-    fun onTrackItemClick(trackItem: Track)
+    fun onTrackItemClick(trackItem: Track, context: Context)
 }
 

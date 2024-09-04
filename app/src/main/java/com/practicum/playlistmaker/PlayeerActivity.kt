@@ -2,6 +2,7 @@ package com.practicum.playlistmaker
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
 import android.widget.EditText
 import android.widget.ImageButton
@@ -20,12 +21,11 @@ class PlayeerActivity : AppCompatActivity() {
 
     private var json: String = ""
     companion object {
-        const val INPUT_TRACK = "INPUT_TRACK"
         const val TRACK = "track"
 
     }
 
-    fun dpToPx(dp: Float, context: Context): Int {
+    private fun dpToPx(dp: Float, context: Context): Int {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
             dp,
@@ -35,6 +35,8 @@ class PlayeerActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_audioplayer)
+
+
 
         val playerArrowBack: ImageButton = findViewById(R.id.backButton)
         val cover: ImageView = findViewById(R.id.cover)
@@ -46,16 +48,17 @@ class PlayeerActivity : AppCompatActivity() {
         val primaryGenreName = findViewById<TextView>(R.id.primaryGenreName)
         val country = findViewById<TextView>(R.id.country)
 
-        playerArrowBack.setOnClickListener {
+       playerArrowBack.setOnClickListener {
             this.finish()
         }
 
         val intent = getIntent()
         json = intent.getStringExtra(TRACK).toString()
+
         val track: Track = Gson().fromJson(json,Track::class.java)
 
 
-        val artworkUrl512 = track.getCoverArtwork()
+       val artworkUrl512 = track.getCoverArtwork()
         Glide.with(applicationContext)
             .load(artworkUrl512)
             .placeholder(R.drawable.placeholder)
@@ -63,15 +66,16 @@ class PlayeerActivity : AppCompatActivity() {
             .transform(RoundedCorners(dpToPx(8f,this.applicationContext)))
             .into(cover)
 
+
         trackName.text = track.trackName
         artistName.text = track.artistName
-        if (track.trackTimeMillis.length > 0) {
-            trackTime.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(track.trackTimeMillis.toLong())
-        }
+        trackTime.text = track.getFormatTimeMillis()
         collectionName.text = track.collectionName
-        releaseDate.text = track.releaseDate.toString()
+        releaseDate.text = track.releaseDate
+
         primaryGenreName.text = track.primaryGenreName
         country.text = track.country
+        Log.d("MY_LOG", "onCreate: ${country.text}")
     }
 
 
