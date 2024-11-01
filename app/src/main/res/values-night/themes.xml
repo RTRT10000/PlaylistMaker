@@ -26,6 +26,7 @@
         <item name="audioplayer_activity_background">@color/YP_Black</item>
         <item name="audioplayer_activity_primary_color">@color/white</item>
         <item name="audioplayer_activity_play_button">@drawable/play_button_dark</item>
+        <item name="audioplayer_activity_pause_button">@drawable/pause_button_dark</item>
         <item name="audioplayeer_activity_favorite_button">@drawable/favorite_button_dark</item>
         <item name="audioplayeer_activity_addtoplaylist_button">@drawable/addtoplaylist_button_dark</item>
 

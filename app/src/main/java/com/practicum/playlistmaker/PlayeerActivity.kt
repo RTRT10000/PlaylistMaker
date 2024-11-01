@@ -1,9 +1,14 @@
 package com.practicum.playlistmaker
 
 import android.content.Context
+import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
 import android.util.TypedValue
+import android.view.View
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -19,22 +24,36 @@ import java.util.Locale
 
 class PlayeerActivity : AppCompatActivity() {
 
-    private var json: String = ""
-    companion object {
+
+   companion object {
         const val TRACK = "track"
-
+        private const val STATE_DEFAULT = 0
+        private const val STATE_PREPARED = 1
+        private const val STATE_PLAYING = 2
+        private const val STATE_PAUSED = 3
+        private const val DELAY = 300L
     }
 
-    private fun dpToPx(dp: Float, context: Context): Int {
-        return TypedValue.applyDimension(
-            TypedValue.COMPLEX_UNIT_DIP,
-            dp,
-            context.resources.displayMetrics).toInt()
-    }
+    private var mainThreadHandler: Handler? = null
+
+    private var playerState = STATE_DEFAULT
+
+    private var mediaPlayer = MediaPlayer()
+    private lateinit var btnPause: ImageButton
+    private lateinit var btnPlay: ImageButton
+    private var json: String = ""
+    private var  previewUrl: String = ""
+    private lateinit var trackTimeMillis: TextView
+
+    private val updatePlayTimeRunnable = updatePlayTime()
+
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_audioplayer)
+
 
 
 
@@ -47,6 +66,13 @@ class PlayeerActivity : AppCompatActivity() {
         val releaseDate: TextView = findViewById(R.id.releaseDate)
         val primaryGenreName = findViewById<TextView>(R.id.primaryGenreName)
         val country = findViewById<TextView>(R.id.country)
+
+        trackTimeMillis = findViewById(R.id.trackTimeMillis)
+
+
+        btnPlay = findViewById(R.id.playButton)
+        btnPause = findViewById(R.id.pauseButton)
+
 
        playerArrowBack.setOnClickListener {
             this.finish()
@@ -66,6 +92,7 @@ class PlayeerActivity : AppCompatActivity() {
             .transform(RoundedCorners(dpToPx(8f,this.applicationContext)))
             .into(cover)
 
+        previewUrl = track.previewUrl
 
         trackName.text = track.trackName
         artistName.text = track.artistName
@@ -75,10 +102,77 @@ class PlayeerActivity : AppCompatActivity() {
 
         primaryGenreName.text = track.primaryGenreName
         country.text = track.country
-        Log.d("MY_LOG", "onCreate: ${country.text}")
+        mainThreadHandler = android.os.Handler(Looper.getMainLooper())
+
+        preparePlayer()
+        btnPlay.setOnClickListener {
+            startPlayer()
+        }
+        btnPause.setOnClickListener {
+            pausePlayer()
+        }
     }
 
 
+
+    private fun preparePlayer() {
+       mediaPlayer.setDataSource(previewUrl)
+       mediaPlayer.prepareAsync()
+       mediaPlayer.setOnPreparedListener {
+           btnPlay.isEnabled = true
+           playerState = STATE_PREPARED
+       }
+        mediaPlayer.setOnCompletionListener {
+            btnPlay.visibility = View.VISIBLE
+            btnPause.visibility = View.GONE
+            playerState = STATE_PREPARED
+            mainThreadHandler?.removeCallbacks(updatePlayTimeRunnable)
+            trackTimeMillis.text = "00:00"
+        }
+   }
+
+    private fun startPlayer() {
+        mediaPlayer.start()
+        playerState = STATE_PLAYING
+        btnPause.visibility = View.VISIBLE
+        btnPlay.visibility = View.GONE
+        mainThreadHandler?.post(updatePlayTimeRunnable)
+    }
+
+    private fun pausePlayer() {
+        mediaPlayer.pause()
+        playerState = STATE_PAUSED
+        btnPlay.visibility = View.VISIBLE
+        btnPause.visibility = View.GONE
+        mainThreadHandler?.removeCallbacks(updatePlayTimeRunnable)
+    }
+
+
+    private fun updatePlayTime(): Runnable {
+        return object : Runnable {
+            override fun run() {
+                trackTimeMillis.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)
+                mainThreadHandler?.postDelayed(this, DELAY)
+            }
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        pausePlayer()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        mainThreadHandler?.removeCallbacks(updatePlayTimeRunnable)
+        mediaPlayer.release()
+    }
+    private fun dpToPx(dp: Float, context: Context): Int {
+        return TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP,
+            dp,
+            context.resources.displayMetrics).toInt()
+    }
 
 
 
