@@ -1,16 +1,29 @@
 package com.practicum.playlistmaker
 
 import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import android.util.Log
+import androidx.core.content.ContextCompat.startActivity
 
 class SearchHistory(
     val context: Context
 ): OnTrackItemClickListener  {
 
     val sharedPref = context.getSharedPreferences(PLAYLIST_PREFERENCES, AppCompatActivity.MODE_PRIVATE)
+
+    companion object {
+        private const val CLOCK_DEBOUNCE_DELAY = 1000L
+    }
+
+    private val handler = Handler(Looper.getMainLooper())
+    private var isClickAllowed = true
+
 
 
     fun getHistoryTrackList(): ArrayList<Track> {
@@ -32,15 +45,31 @@ class SearchHistory(
            .apply()
    }
 
-    override fun onTrackItemClick(trackItem: Track) {
-        val  trackList = getHistoryTrackList()
-        if(trackList.isEmpty()) {
-            trackList.add(trackItem)
-            putHistoryTrackList(trackList)
-        } else {
-            processItem(trackItem, trackList)
-        }
+    override fun onTrackItemClick(trackItem: Track, context: Context) {
 
+       if (clickDebounce()) {
+           val trackList = getHistoryTrackList()
+
+           if (trackList.isEmpty()) {
+               trackList.add(trackItem)
+               putHistoryTrackList(trackList)
+           } else {
+               processItem(trackItem, trackList)
+           }
+           val json = Gson().toJson(trackItem)
+           val playeerIntent = Intent(context, PlayeerActivity::class.java)
+           playeerIntent.putExtra("track", json)
+           context.startActivity(playeerIntent)
+       }
+    }
+
+    private fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed( {isClickAllowed = true}, CLOCK_DEBOUNCE_DELAY)
+        }
+        return current
     }
 
     fun processItem(trackItem: Track, trackList: ArrayList<Track>) {
@@ -70,6 +99,6 @@ class SearchHistory(
 }
 
  interface OnTrackItemClickListener {
-    fun onTrackItemClick(trackItem: Track)
+    fun onTrackItemClick(trackItem: Track, context: Context)
 }
 

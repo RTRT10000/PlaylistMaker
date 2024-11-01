@@ -4,9 +4,12 @@ import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.PersistableBundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -15,6 +18,7 @@ import android.widget.EditText
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,6 +31,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.create
 
 class SearchActivity : AppCompatActivity() {
+
 
 
     private val iTunesBaseUrl = "https://itunes.apple.com"
@@ -49,7 +54,7 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var btnClearHistoryList: Button
     private lateinit var searchContainer: FrameLayout
 
-
+    private lateinit var progressBar: ProgressBar
 
 
     private  val trackList = ArrayList<Track>()
@@ -59,12 +64,18 @@ class SearchActivity : AppCompatActivity() {
     private val adapter = TrackAdapter()
     private val historyAdapter = TrackAdapter()
 
+    private val handler = Handler(Looper.getMainLooper())
+
 
     companion object {
        const val INPUT_TEXT = "INPUT_TEXT"
        const val TEXT_DEF = ""
 
+       private const val SEARCH_DEBOUNCE_DELAY = 2000L
    }
+
+    private val searchRunnable = Runnable { searchRequest() }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,6 +89,7 @@ class SearchActivity : AppCompatActivity() {
         historyRecycler = findViewById(R.id.rvHistoryTrackList)
         historyConteiner = findViewById(R.id.llHistoryConteiner)
         searchContainer = findViewById(R.id.flSearch)
+        progressBar = findViewById(R.id.progressBar)
 
 
         val searchHistory = SearchHistory(this)
@@ -121,7 +133,7 @@ class SearchActivity : AppCompatActivity() {
                 searchContainer.visibility = View.VISIBLE
             }
         }
-
+//--------------------------------------------------------------------------------------
         inputEditText.addTextChangedListener(object: TextWatcher {
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
             }
@@ -139,7 +151,7 @@ class SearchActivity : AppCompatActivity() {
                     historyConteiner.visibility = View.GONE
                     searchContainer.visibility = View.VISIBLE
                 }
-
+                searchDebounce()
            }
 
             override fun afterTextChanged(p0: Editable?) {
@@ -147,12 +159,18 @@ class SearchActivity : AppCompatActivity() {
 
         })
 
-        inputEditText.setOnEditorActionListener { _, actionId, _ ->
+
+
+//----------------------------------------------------------------------------------------------------------------
+
+        /*inputEditText.setOnEditorActionListener { _, actionId, _ ->
             if (actionId == EditorInfo.IME_ACTION_DONE) {
                 iTunesService.findTrack(inputEditText.text.toString()).enqueue(object :  Callback<TracksResponse>  {
                     override fun onResponse(call: Call<TracksResponse>,
                                             response: Response<TracksResponse>) {
-                       if (response.code() == 200) {
+                        val my_s: Int = response.code()
+                        Log.d("my_con", my_s.toString())
+                        if (response.code() == 200) {
                            trackList.clear()
                            if (response.body()?.results?.isNotEmpty() == true) {
                                trackList.addAll(response.body()?.results!!)
@@ -169,7 +187,8 @@ class SearchActivity : AppCompatActivity() {
                     }
 
                     override fun onFailure(call: Call<TracksResponse>, t: Throwable) {
-                        showMessage(getString(R.string.something_went_wrong), false)
+                         Log.d("MY_TAG", "onFailure: $t")
+                         showMessage(getString(R.string.something_went_wrong), false)
                     }
                 }
 
@@ -179,9 +198,9 @@ class SearchActivity : AppCompatActivity() {
                 true
             }
             false
-        }
-
-        refreshButton.setOnClickListener {
+        }*/
+//-------------------------------------------------------------------------------------------------------------------------
+        /*refreshButton.setOnClickListener {
             iTunesService.findTrack(inputEditText.text.toString()).enqueue(object :  Callback<TracksResponse>  {
                 override fun onResponse(call: Call<TracksResponse>,
                                         response: Response<TracksResponse>) {
@@ -205,6 +224,10 @@ class SearchActivity : AppCompatActivity() {
                     showMessage(getString(R.string.something_went_wrong), false)
                 }
             })
+        }*/
+
+        refreshButton.setOnClickListener {
+            searchRequest()
         }
 
 
@@ -241,6 +264,44 @@ class SearchActivity : AppCompatActivity() {
 
     }
 
+
+
+
+    private fun searchDebounce() {
+        handler.removeCallbacks(searchRunnable)
+        handler.postDelayed(searchRunnable, SEARCH_DEBOUNCE_DELAY)
+    }
+
+    private fun searchRequest() {
+
+        progressBar.visibility = View.VISIBLE
+
+        iTunesService.findTrack(inputEditText.text.toString()).enqueue(object :  Callback<TracksResponse>  {
+            override fun onResponse(call: Call<TracksResponse>,
+                                    response: Response<TracksResponse>) {
+                progressBar.visibility = View.GONE
+                if (response.code() == 200) {
+                    trackList.clear()
+                    if (response.body()?.results?.isNotEmpty() == true) {
+                        trackList.addAll(response.body()?.results!!)
+                        adapter.notifyDataSetChanged()
+                    }
+                    if (trackList.isEmpty()) {
+                        showMessage(getString(R.string.nothing_found), true)
+                    } else {
+                        showMessage("", true)
+                    }
+                } else {
+                    showMessage(getString(R.string.something_went_wrong), false)
+                }
+            }
+
+            override fun onFailure(call: Call<TracksResponse>, t: Throwable) {
+                progressBar.visibility = View.GONE
+                showMessage(getString(R.string.something_went_wrong), false)
+            }
+        })
+    }
 
     private fun showMessage(text: String, isNotFoundTrack: Boolean) {
         if (text.isNotEmpty()) {

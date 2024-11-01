@@ -51,7 +51,7 @@
         <ImageView
             style="@style/SettingsMenuImageView"
             android:src="@drawable/share"/>
-    </FrameLayout>>
+    </FrameLayout>
 
     <FrameLayout
         style="@style/SettingsMenuFrameLayoutStyle">
@@ -64,7 +64,7 @@
         <ImageView
             style="@style/SettingsMenuImageView"
             android:src="@drawable/support"/>
-    </FrameLayout>>
+    </FrameLayout>
 
     <FrameLayout
         style="@style/SettingsMenuFrameLayoutStyle">

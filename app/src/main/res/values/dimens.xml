@@ -7,6 +7,7 @@
     <dimen name="sp_22">22sp</dimen>
     <dimen name="sp_16">16sp</dimen>
     <dimen name="sp_14">14sp</dimen>
+    <dimen name="sp_13">13sp</dimen>
     <dimen name="sp_19">19sp</dimen>
     <dimen name="sp_11">11sp</dimen>
     <dimen name="dp_16">16dp</dimen>
@@ -27,6 +28,7 @@
     <dimen name="dp_135">135dp</dimen>
     <dimen name="dp_54">54dp</dimen>
     <dimen name="dp_28">28dp</dimen>
+    <dimen name="dp_140">140dp</dimen>
 
 
 </resources>
