@@ -19,6 +19,7 @@
     <attr name="audioplayer_activity_background"/>
     <attr name="audioplayer_activity_primary_color"/>
     <attr name="audioplayer_activity_play_button"/>
+    <attr name="audioplayer_activity_pause_button"/>
     <attr name="audioplayeer_activity_favorite_button"/>
     <attr name="audioplayeer_activity_addtoplaylist_button"/>
 

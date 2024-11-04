@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.google.gson.Gson
 import android.util.Log
@@ -14,6 +16,14 @@ class SearchHistory(
 ): OnTrackItemClickListener  {
 
     val sharedPref = context.getSharedPreferences(PLAYLIST_PREFERENCES, AppCompatActivity.MODE_PRIVATE)
+
+    companion object {
+        private const val CLOCK_DEBOUNCE_DELAY = 1000L
+    }
+
+    private val handler = Handler(Looper.getMainLooper())
+    private var isClickAllowed = true
+
 
 
     fun getHistoryTrackList(): ArrayList<Track> {
@@ -37,21 +47,29 @@ class SearchHistory(
 
     override fun onTrackItemClick(trackItem: Track, context: Context) {
 
-        val  trackList = getHistoryTrackList()
+       if (clickDebounce()) {
+           val trackList = getHistoryTrackList()
 
-        if(trackList.isEmpty()) {
-            trackList.add(trackItem)
-            putHistoryTrackList(trackList)
-        } else {
-            processItem(trackItem, trackList)
+           if (trackList.isEmpty()) {
+               trackList.add(trackItem)
+               putHistoryTrackList(trackList)
+           } else {
+               processItem(trackItem, trackList)
+           }
+           val json = Gson().toJson(trackItem)
+           val playeerIntent = Intent(context, PlayeerActivity::class.java)
+           playeerIntent.putExtra("track", json)
+           context.startActivity(playeerIntent)
+       }
+    }
+
+    private fun clickDebounce(): Boolean {
+        val current = isClickAllowed
+        if (isClickAllowed) {
+            isClickAllowed = false
+            handler.postDelayed( {isClickAllowed = true}, CLOCK_DEBOUNCE_DELAY)
         }
-        val json = Gson().toJson(trackItem)
-        Log.d("MY_LOG", "onClick: $json")
-        val playeerIntent = Intent(context, PlayeerActivity::class.java)
-        playeerIntent.putExtra("track", json)
-        context.startActivity(playeerIntent)
-
-
+        return current
     }
 
     fun processItem(trackItem: Track, trackList: ArrayList<Track>) {

@@ -28,6 +28,7 @@
     <dimen name="dp_135">135dp</dimen>
     <dimen name="dp_54">54dp</dimen>
     <dimen name="dp_28">28dp</dimen>
+    <dimen name="dp_140">140dp</dimen>
 
 
 </resources>
