@@ -24,7 +24,6 @@ import com.practicum.playlistmaker.domain.api.TracksInteractor
 import com.practicum.playlistmaker.domain.impl.TracksInteractorImpl
 import com.practicum.playlistmaker.domain.models.Track
 import com.practicum.playlistmaker.domain.models.domainTracksResponse
-import com.practicum.playlistmaker.inputText
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -64,6 +63,7 @@ class SearchActivity : AppCompatActivity() {
     private val historyAdapter = TrackAdapter()
 
     private val handler = Handler(Looper.getMainLooper())
+    private val handlerSearchTracks = Handler(Looper.getMainLooper())
 
     private lateinit var tracksInteractor: TracksInteractor
 
@@ -76,6 +76,11 @@ class SearchActivity : AppCompatActivity() {
    }
 
     private val searchRunnable = Runnable { searchRequest() }
+
+    private var inputText: String = ""
+
+
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -213,28 +218,30 @@ class SearchActivity : AppCompatActivity() {
    //-----------------------------------------Поиск треков-----------------------------------------------------
     private fun searchRequest() {
 
-        progressBar.visibility = View.VISIBLE
+
+       progressBar.visibility = View.VISIBLE
 
        val consumer = object: TracksInteractor.TracksConsumer {
            override fun consume(foundTracks: domainTracksResponse) {
-               progressBar.visibility = View.GONE
-               trackList.clear()
-               trackList.addAll(foundTracks.results)
-               adapter.notifyDataSetChanged()
-               if (foundTracks.resultCode == 200) {
-                   if (trackList.isEmpty()) {
-                       showMessage(getString(R.string.nothing_found), true)
+               handlerSearchTracks.post {
+                   progressBar.visibility = View.GONE
+                   trackList.clear()
+                   trackList.addAll(foundTracks.results)
+                   adapter.notifyDataSetChanged()
+                   if (foundTracks.resultCode == 200) {
+                       if (trackList.isEmpty()) {
+                           showMessage(getString(R.string.nothing_found), true)
+                       } else {
+                           showMessage("", true)
+                       }
                    } else {
-                       showMessage("", true)
+                       showMessage(getString(R.string.something_went_wrong), false)
                    }
-               } else {
-                   showMessage(getString(R.string.something_went_wrong), false)
                }
            }
        }
 
        tracksInteractor.searchTracks(inputEditText.text.toString(), consumer)
-
 
        /*iTunesService.findTrack(inputEditText.text.toString()).enqueue(object :
             Callback<TracksResponse> {
@@ -265,6 +272,7 @@ class SearchActivity : AppCompatActivity() {
         })*/
 
     }
+
 
     private fun showMessage(text: String, isNotFoundTrack: Boolean) {
         if (text.isNotEmpty()) {
