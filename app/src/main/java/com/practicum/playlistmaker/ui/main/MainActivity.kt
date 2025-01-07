@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import androidx.appcompat.app.AppCompatDelegate
+import com.practicum.playlistmaker.Creator
 import com.practicum.playlistmaker.ui.media.MediaActivity
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.ui.search.SearchActivity
@@ -58,7 +59,9 @@ class App : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        sharedPref = getSharedPreferences(PLAYLIST_PREFERENCES, Application.MODE_PRIVATE)
+        Creator.initApplication(this)
+       // sharedPref = getSharedPreferences(PLAYLIST_PREFERENCES, Application.MODE_PRIVATE)
+        sharedPref = Creator.provideSharedPrefernces()
         darkTheme = sharedPref.getBoolean(DARK_THEME,false)
     }
 

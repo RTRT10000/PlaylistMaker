@@ -19,14 +19,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.Creator
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.data.dto.TracksResponse
 import com.practicum.playlistmaker.domain.api.TracksInteractor
-import com.practicum.playlistmaker.domain.impl.TracksInteractorImpl
+import com.practicum.playlistmaker.domain.impl.SearchHistory
 import com.practicum.playlistmaker.domain.models.Track
 import com.practicum.playlistmaker.domain.models.domainTracksResponse
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class SearchActivity : AppCompatActivity() {
 
@@ -63,7 +59,6 @@ class SearchActivity : AppCompatActivity() {
     private val historyAdapter = TrackAdapter()
 
     private val handler = Handler(Looper.getMainLooper())
-    private val handlerSearchTracks = Handler(Looper.getMainLooper())
 
     private lateinit var tracksInteractor: TracksInteractor
 
@@ -103,17 +98,18 @@ class SearchActivity : AppCompatActivity() {
         recycler.layoutManager = LinearLayoutManager(this)
         recycler.adapter = adapter
         adapter.onTrackItemClickListener = searchHistory
+        historyAdapter.onTrackItemClickListener = searchHistory
 
         tracksInteractor = Creator.getTracksInteractor()
 
-        historyTrackList = searchHistory.getHistoryTrackList()
+        historyTrackList = searchHistory.historyTracksListRepository.getHistoryTrackList()
         historyAdapter.tracks = historyTrackList
         historyRecycler.adapter = historyAdapter
         historyRecycler.layoutManager = LinearLayoutManager(this)
         btnClearHistoryList = findViewById(R.id.btnClearHistoryList)
 
         btnClearHistoryList.setOnClickListener {
-            searchHistory.clearHistoryList()
+            searchHistory.historyTracksListRepository.clearHistoryTrackList()
             historyTrackList.clear()
             historyAdapter.notifyDataSetChanged()
             historyConteiner.visibility = View.GONE
@@ -128,7 +124,7 @@ class SearchActivity : AppCompatActivity() {
 
         inputEditText.setOnFocusChangeListener { view, hasFocus ->
             if (hasFocus && inputEditText.text.isEmpty() && historyTrackList.isNotEmpty()) {
-                historyTrackList = searchHistory.getHistoryTrackList()
+                historyTrackList = searchHistory.historyTracksListRepository.getHistoryTrackList()
                 historyAdapter.tracks = historyTrackList
                 historyAdapter.notifyDataSetChanged()
                 historyConteiner.visibility = View.VISIBLE
@@ -147,7 +143,7 @@ class SearchActivity : AppCompatActivity() {
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
 
                 if (inputEditText.hasFocus() && p0?.isEmpty() == true && historyTrackList.isNotEmpty()) {
-                    historyTrackList = searchHistory.getHistoryTrackList()
+                    historyTrackList = searchHistory.historyTracksListRepository.getHistoryTrackList()
                     historyAdapter.tracks = historyTrackList
                     historyAdapter.notifyDataSetChanged()
                     historyConteiner.visibility = View.VISIBLE
@@ -223,7 +219,7 @@ class SearchActivity : AppCompatActivity() {
 
        val consumer = object: TracksInteractor.TracksConsumer {
            override fun consume(foundTracks: domainTracksResponse) {
-               handlerSearchTracks.post {
+               handler.post {
                    progressBar.visibility = View.GONE
                    trackList.clear()
                    trackList.addAll(foundTracks.results)
