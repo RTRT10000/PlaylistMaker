@@ -5,11 +5,11 @@ import com.practicum.playlistmaker.data.dto.TracksRequest
 import com.practicum.playlistmaker.data.dto.TracksResponse
 import com.practicum.playlistmaker.domain.api.TracksRepository
 import com.practicum.playlistmaker.domain.models.Track
-import com.practicum.playlistmaker.domain.models.domainTracksResponse
+import com.practicum.playlistmaker.domain.models.DDomainTracksResponse
 
 class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRepository {
 
-    override fun searchTracks(expression: String): domainTracksResponse {
+    override fun searchTracks(expression: String): DDomainTracksResponse {
         val response = networkClient.doRequest(TracksRequest(expression))
         var res: List<Track> = emptyList()
 
@@ -29,7 +29,7 @@ class TracksRepositoryImpl(private val networkClient: NetworkClient) : TracksRep
                 )
             }
         }
-        return domainTracksResponse(res, response.resultCode)
+        return DDomainTracksResponse(res, response.resultCode)
     }
 
 }

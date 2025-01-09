@@ -2,6 +2,7 @@ package com.practicum.playlistmaker
 
 import android.app.Application
 import android.content.SharedPreferences
+import com.google.gson.Gson
 import com.practicum.playlistmaker.data.StoragePreferences
 import com.practicum.playlistmaker.data.network.RetrofitNetworkClient
 import com.practicum.playlistmaker.data.impl.StoragePreferencesImp
@@ -16,6 +17,7 @@ import com.practicum.playlistmaker.ui.main.PLAYLIST_PREFERENCES
 object Creator {
 
     private lateinit var application: Application
+    private val gson = Gson()
 
     fun initApplication(application: Application) {
         this.application = application
@@ -39,5 +41,9 @@ object Creator {
 
     fun getHistoryTracksListRepository(): HistoryTracksListRepository {
          return HistoryTracksListRepositoryImpl(getStoragePreferences())
+    }
+
+    fun getGson(): Gson {
+        return gson
     }
 }

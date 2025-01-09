@@ -16,8 +16,6 @@ class SearchHistory(
     val context: Context
 ): OnTrackItemClickListener {
 
-    //val sharedPref = context.getSharedPreferences(PLAYLIST_PREFERENCES, AppCompatActivity.MODE_PRIVATE)
-
 
     companion object {
         private const val CLOCK_DEBOUNCE_DELAY = 1000L
@@ -28,24 +26,6 @@ class SearchHistory(
     val historyTracksListRepository = Creator.getHistoryTracksListRepository()
 
 
-    /*fun getHistoryTrackList(): ArrayList<Track> {
-        val json = sharedPref.getString(SEARCH_HISTORY_LIST, null) ?: return ArrayList<Track>()
-        return arrayToList(Gson().fromJson(json, Array<Track>::class.java))
-    }
-
-
-    fun putHistoryTrackList(tracksList: ArrayList<Track>) {
-        val json = Gson().toJson(tracksList)
-        sharedPref.edit()
-            .putString(SEARCH_HISTORY_LIST, json)
-            .apply()
-    }
-
-   fun clearHistoryList() {
-       sharedPref.edit()
-           .remove(SEARCH_HISTORY_LIST)
-           .apply()
-   }*/
 
     override fun onTrackItemClick(trackItem: Track, context: Context) {
 
@@ -89,14 +69,7 @@ class SearchHistory(
         historyTracksListRepository.putHistoryTrackList(trackList)
     }
 
-   /*fun arrayToList(inArray: Array<Track>): ArrayList<Track> {
-       val outArrayList = ArrayList<Track>()
-       inArray.forEach { track ->
-           outArrayList.add(track)
-           Log.d("check_click", "item $track")
-       }
-       return outArrayList
-   }*/
+
 
 }
 

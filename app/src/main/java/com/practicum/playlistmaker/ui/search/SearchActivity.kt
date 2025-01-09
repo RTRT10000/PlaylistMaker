@@ -22,20 +22,10 @@ import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.domain.api.TracksInteractor
 import com.practicum.playlistmaker.domain.impl.SearchHistory
 import com.practicum.playlistmaker.domain.models.Track
-import com.practicum.playlistmaker.domain.models.domainTracksResponse
+import com.practicum.playlistmaker.domain.models.DDomainTracksResponse
 
 class SearchActivity : AppCompatActivity() {
 
-
-
-   // private val iTunesBaseUrl = "https://itunes.apple.com"
-
-    /*private val retrofit = Retrofit.Builder()
-        .baseUrl(iTunesBaseUrl)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()private*/
-
-    //private val iTunesService = retrofit.create(ItunesApi::class.java)
 
     private lateinit var recycler: RecyclerView
     private lateinit var refreshButton: Button
@@ -218,7 +208,7 @@ class SearchActivity : AppCompatActivity() {
        progressBar.visibility = View.VISIBLE
 
        val consumer = object: TracksInteractor.TracksConsumer {
-           override fun consume(foundTracks: domainTracksResponse) {
+           override fun consume(foundTracks: DDomainTracksResponse) {
                handler.post {
                    progressBar.visibility = View.GONE
                    trackList.clear()
@@ -239,33 +229,6 @@ class SearchActivity : AppCompatActivity() {
 
        tracksInteractor.searchTracks(inputEditText.text.toString(), consumer)
 
-       /*iTunesService.findTrack(inputEditText.text.toString()).enqueue(object :
-            Callback<TracksResponse> {
-            override fun onResponse(call: Call<TracksResponse>,
-                                    response: Response<TracksResponse>
-            ) {
-                progressBar.visibility = View.GONE
-                if (response.code() == 200) {
-                    trackList.clear()
-                    if (response.body()?.results?.isNotEmpty() == true) {
-                        trackList.addAll(response.body()?.results!!)
-                        adapter.notifyDataSetChanged()
-                    }
-                    if (trackList.isEmpty()) {
-                        showMessage(getString(R.string.nothing_found), true)
-                    } else {
-                        showMessage("", true)
-                    }
-                } else {
-                    showMessage(getString(R.string.something_went_wrong), false)
-                }
-            }
-
-            override fun onFailure(call: Call<TracksResponse>, t: Throwable) {
-                progressBar.visibility = View.GONE
-                showMessage(getString(R.string.something_went_wrong), false)
-            }
-        })*/
 
     }
 
