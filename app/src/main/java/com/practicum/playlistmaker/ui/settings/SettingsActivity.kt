@@ -18,6 +18,8 @@ class SettingsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
 
+        val settingsInteractor = Creator.getSettingInteractor()
+
         val tvSettingsArrowBack = findViewById<ImageView>(R.id.tvSettingsArrowBack)
         tvSettingsArrowBack.setOnClickListener {
             this.finish()
@@ -60,11 +62,7 @@ class SettingsActivity : AppCompatActivity() {
 
         themeSwitcher.setOnCheckedChangeListener  {switcher, checked ->
             (applicationContext as App).darkTheme = checked
-            //val sharedPrefs = getSharedPreferences(PLAYLIST_PREFERENCES, MODE_PRIVATE)
-            val sharedPrefs = Creator.provideSharedPrefernces()
-            sharedPrefs.edit()
-                .putBoolean(DARK_THEME,checked)
-                .apply()
+            Creator.getSettingInteractor().saveDarkChecked(checked)
             (applicationContext as App).switchTheme(checked)
         }
 

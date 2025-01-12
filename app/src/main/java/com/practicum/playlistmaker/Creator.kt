@@ -11,6 +11,14 @@ import com.practicum.playlistmaker.domain.api.HistoryTracksListRepository
 import com.practicum.playlistmaker.domain.api.TracksInteractor
 import com.practicum.playlistmaker.domain.api.TracksRepository
 import com.practicum.playlistmaker.data.impl.HistoryTracksListRepositoryImpl
+import com.practicum.playlistmaker.data.impl.PlayerRepositoryImpl
+import com.practicum.playlistmaker.data.impl.SettingsRepositoryImpl
+import com.practicum.playlistmaker.domain.api.PlayerInteractor
+import com.practicum.playlistmaker.domain.api.PlayerRepository
+import com.practicum.playlistmaker.domain.api.SettingsInteractor
+import com.practicum.playlistmaker.domain.api.SettingsRepository
+import com.practicum.playlistmaker.domain.impl.PlayerInteractorImpl
+import com.practicum.playlistmaker.domain.impl.SettingsInteractorImpl
 import com.practicum.playlistmaker.domain.impl.TracksInteractorImpl
 import com.practicum.playlistmaker.ui.main.PLAYLIST_PREFERENCES
 
@@ -45,5 +53,21 @@ object Creator {
 
     fun getGson(): Gson {
         return gson
+    }
+
+    fun getSettingsRepository(): SettingsRepository {
+        return SettingsRepositoryImpl(getStoragePreferences())
+    }
+
+    fun getSettingInteractor(): SettingsInteractor {
+        return SettingsInteractorImpl(getSettingsRepository())
+    }
+
+    fun getPlayerRepository(): PlayerRepository {
+        return PlayerRepositoryImpl()
+    }
+
+    fun getPlayerInteractor(): PlayerInteractor {
+        return PlayerInteractorImpl(getPlayerRepository())
     }
 }

@@ -54,15 +54,15 @@ class MainActivity : AppCompatActivity() {
 class App : Application() {
 
     var darkTheme = false
-    lateinit var  sharedPref: SharedPreferences
 
 
     override fun onCreate() {
         super.onCreate()
         Creator.initApplication(this)
-       // sharedPref = getSharedPreferences(PLAYLIST_PREFERENCES, Application.MODE_PRIVATE)
-        sharedPref = Creator.provideSharedPrefernces()
-        darkTheme = sharedPref.getBoolean(DARK_THEME,false)
+        val settingsInteractor = Creator.getSettingInteractor()
+        darkTheme =  settingsInteractor.loadDarkChecked()
+
+
     }
 
     fun switchTheme(darkThemeEnabled: Boolean) {

@@ -14,7 +14,9 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.gson.Gson
+import com.practicum.playlistmaker.Creator
 import com.practicum.playlistmaker.R
+import com.practicum.playlistmaker.domain.api.PlayerInteractor
 import com.practicum.playlistmaker.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
@@ -24,18 +26,14 @@ class PlayeerActivity : AppCompatActivity() {
 
    companion object {
         const val TRACK = "track"
-        private const val STATE_DEFAULT = 0
-        private const val STATE_PREPARED = 1
-        private const val STATE_PLAYING = 2
-        private const val STATE_PAUSED = 3
         private const val DELAY = 300L
     }
 
     private var mainThreadHandler: Handler? = null
 
-    private var playerState = STATE_DEFAULT
+    //private var playerState = STATE_DEFAULT
 
-    private var mediaPlayer = MediaPlayer()
+    //private var mediaPlayer = MediaPlayer()
     private lateinit var btnPause: ImageButton
     private lateinit var btnPlay: ImageButton
     private var json: String = ""
@@ -43,6 +41,8 @@ class PlayeerActivity : AppCompatActivity() {
     private lateinit var trackTimeMillis: TextView
 
     private val updatePlayTimeRunnable = updatePlayTime()
+
+    private val playerInteractor = Creator.getPlayerInteractor()
 
 
 
@@ -67,6 +67,8 @@ class PlayeerActivity : AppCompatActivity() {
         trackTimeMillis = findViewById(R.id.trackTimeMillis)
 
 
+
+
         btnPlay = findViewById(R.id.playButton)
         btnPause = findViewById(R.id.pauseButton)
 
@@ -76,9 +78,10 @@ class PlayeerActivity : AppCompatActivity() {
         }
 
         val intent = getIntent()
-        json = intent.getStringExtra(TRACK).toString()
+        val json = intent.getStringExtra(TRACK).toString()
 
-        val track: Track = Gson().fromJson(json, Track::class.java)
+
+        val track: Track = Creator.getGson().fromJson(json, Track::class.java)
 
 
        val artworkUrl512 = track.getCoverArtwork()
@@ -113,7 +116,21 @@ class PlayeerActivity : AppCompatActivity() {
 
 
     private fun preparePlayer() {
-       mediaPlayer.setDataSource(previewUrl)
+
+       val onPrepare = {
+           btnPlay.isEnabled = true
+           }
+
+        val onComplete = {
+            btnPlay.visibility = View.VISIBLE
+            btnPause.visibility = View.GONE
+            mainThreadHandler?.removeCallbacks(updatePlayTimeRunnable)
+            trackTimeMillis.text = "00:00"
+        }
+
+        playerInteractor.preparePlayer(previewUrl, onPrepare, onComplete)
+
+        /*mediaPlayer.setDataSource(previewUrl)
        mediaPlayer.prepareAsync()
        mediaPlayer.setOnPreparedListener {
            btnPlay.isEnabled = true
@@ -125,20 +142,26 @@ class PlayeerActivity : AppCompatActivity() {
             playerState = STATE_PREPARED
             mainThreadHandler?.removeCallbacks(updatePlayTimeRunnable)
             trackTimeMillis.text = "00:00"
-        }
+        }*/
+
+
    }
 
     private fun startPlayer() {
-        mediaPlayer.start()
-        playerState = STATE_PLAYING
+        /*mediaPlayer.start()
+        playerState = STATE_PLAYING*/
+
+        playerInteractor.startPlayer()
         btnPause.visibility = View.VISIBLE
         btnPlay.visibility = View.GONE
         mainThreadHandler?.post(updatePlayTimeRunnable)
     }
 
     private fun pausePlayer() {
-        mediaPlayer.pause()
-        playerState = STATE_PAUSED
+        /*mediaPlayer.pause()
+        playerState = STATE_PAUSED*/
+
+        playerInteractor.pausePlayer()
         btnPlay.visibility = View.VISIBLE
         btnPause.visibility = View.GONE
         mainThreadHandler?.removeCallbacks(updatePlayTimeRunnable)
@@ -148,7 +171,8 @@ class PlayeerActivity : AppCompatActivity() {
     private fun updatePlayTime(): Runnable {
         return object : Runnable {
             override fun run() {
-                trackTimeMillis.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)
+                //trackTimeMillis.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)
+                trackTimeMillis.text = playerInteractor.getPlayTime()
                 mainThreadHandler?.postDelayed(this, DELAY)
             }
         }
@@ -162,8 +186,10 @@ class PlayeerActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         mainThreadHandler?.removeCallbacks(updatePlayTimeRunnable)
-        mediaPlayer.release()
+        playerInteractor.releasePlayer()
+       // mediaPlayer.release()
     }
+
     private fun dpToPx(dp: Float, context: Context): Int {
         return TypedValue.applyDimension(
             TypedValue.COMPLEX_UNIT_DIP,
