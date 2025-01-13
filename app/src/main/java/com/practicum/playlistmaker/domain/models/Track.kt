@@ -1,6 +1,5 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.domain.models
 
-import java.io.Serializable
 import java.text.SimpleDateFormat
 import java.util.Locale
 

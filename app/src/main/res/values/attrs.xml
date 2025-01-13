@@ -22,6 +22,9 @@
     <attr name="audioplayer_activity_pause_button"/>
     <attr name="audioplayeer_activity_favorite_button"/>
     <attr name="audioplayeer_activity_addtoplaylist_button"/>
+    <attr name="search_lupa"/>
+    <attr name="audioplayeer_activity_font_color"/>
+
 
 
 </resources>

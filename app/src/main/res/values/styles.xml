@@ -16,12 +16,18 @@
         <item name="iconTint">@color/black</item>
     </style>>
 
-    <style name="SettingsMenuFrameLayoutStyle">
+    <style name="SettingsMenuFrameLayoutStyle" parent="Widget.MaterialComponents.CompoundButton.Switch">
        <item name="android:layout_width">match_parent</item>
        <item name="android:layout_height">wrap_content</item>
        <item name="android:layout_marginTop">@dimen/dp_10</item>
        <item name="android:padding">@dimen/dp_16</item>
+       <item name="materialThemeOverlay">@style/ThemeOverlay.App.Switch</item>
     </style>
+
+    <style name="ThemeOverlay.App.Switch" parent="">
+        <item name="colorSecondary">@color/YP_Blue</item>
+    </style>
+
 
     <style name="SettingsMenuTextViewStyle">
         <item name="android:layout_width">wrap_content</item>
@@ -38,6 +44,9 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">end</item>
     </style>
+
+
+
 
 </resources>
 

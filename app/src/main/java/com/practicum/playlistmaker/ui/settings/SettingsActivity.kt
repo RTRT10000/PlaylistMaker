@@ -1,18 +1,24 @@
-package com.practicum.playlistmaker
+package com.practicum.playlistmaker.ui.settings
 
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.practicum.playlistmaker.Creator
+import com.practicum.playlistmaker.ui.main.App
+import com.practicum.playlistmaker.ui.main.DARK_THEME
+import com.practicum.playlistmaker.ui.main.PLAYLIST_PREFERENCES
+import com.practicum.playlistmaker.R
 
 class SettingsActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_settings)
+
+        val settingsInteractor = Creator.getSettingInteractor()
 
         val tvSettingsArrowBack = findViewById<ImageView>(R.id.tvSettingsArrowBack)
         tvSettingsArrowBack.setOnClickListener {
@@ -56,10 +62,7 @@ class SettingsActivity : AppCompatActivity() {
 
         themeSwitcher.setOnCheckedChangeListener  {switcher, checked ->
             (applicationContext as App).darkTheme = checked
-            val sharedPrefs = getSharedPreferences(PLAYLIST_PREFERENCES, MODE_PRIVATE)
-            sharedPrefs.edit()
-                .putBoolean(DARK_THEME,checked)
-                .apply()
+            settingsInteractor.saveDarkChecked(checked)
             (applicationContext as App).switchTheme(checked)
         }
 

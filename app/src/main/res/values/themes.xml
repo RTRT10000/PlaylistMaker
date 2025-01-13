@@ -9,7 +9,10 @@
         <item name="settings_activity_background">@color/white</item>
         <item name="settings_activity_primary_color">@color/YP_Black</item>
         <item name="settings_activity_icon_color">@color/YP_Black</item>
-        <!--      ACTIVITY_SEARCH -->
+        <item name="switchStyle">@style/SettingsMenuFrameLayoutStyle</item>
+
+
+    <!--      ACTIVITY_SEARCH -->
         <item name="search_activity_background">@color/white</item>
         <item name="search_activity_primary_color">@color/YP_Black</item>
         <item name="search_activity_icon_color">@color/YP_Black</item>
@@ -20,6 +23,7 @@
         <item name="place_holder_not_found">@drawable/search_placeholder_light</item>
         <item name="place_holder_connection_error">@drawable/search_placeholder_net_light</item>
         <item name="search_activity_text_color_text_placeholder">@color/YP_Black</item>
+        <item name="search_lupa">@drawable/search_icon</item>
         <!--      ACTIVITY_AUDIOPLAYEER -->
         <item name="clear_cancel_button">@drawable/clearbutton_light</item>
         <item name="arrow_back">@drawable/arrow_back_light</item>
@@ -29,6 +33,7 @@
         <item name="audioplayer_activity_pause_button">@drawable/pause_button_light</item>
         <item name="audioplayeer_activity_favorite_button">@drawable/favorite_button_light</item>
         <item name="audioplayeer_activity_addtoplaylist_button">@drawable/addtoplaylist_button_light</item>
+        <item name="audioplayeer_activity_font_color">@color/YP_Black</item>
 
 
 
