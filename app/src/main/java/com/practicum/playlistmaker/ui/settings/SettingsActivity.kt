@@ -62,7 +62,7 @@ class SettingsActivity : AppCompatActivity() {
 
         themeSwitcher.setOnCheckedChangeListener  {switcher, checked ->
             (applicationContext as App).darkTheme = checked
-            Creator.getSettingInteractor().saveDarkChecked(checked)
+            settingsInteractor.saveDarkChecked(checked)
             (applicationContext as App).switchTheme(checked)
         }
 

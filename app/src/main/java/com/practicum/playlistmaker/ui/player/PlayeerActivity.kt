@@ -31,9 +31,7 @@ class PlayeerActivity : AppCompatActivity() {
 
     private var mainThreadHandler: Handler? = null
 
-    //private var playerState = STATE_DEFAULT
 
-    //private var mediaPlayer = MediaPlayer()
     private lateinit var btnPause: ImageButton
     private lateinit var btnPlay: ImageButton
     private var json: String = ""
@@ -125,31 +123,15 @@ class PlayeerActivity : AppCompatActivity() {
             btnPlay.visibility = View.VISIBLE
             btnPause.visibility = View.GONE
             mainThreadHandler?.removeCallbacks(updatePlayTimeRunnable)
-            trackTimeMillis.text = "00:00"
+            trackTimeMillis.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(0)
         }
 
         playerInteractor.preparePlayer(previewUrl, onPrepare, onComplete)
-
-        /*mediaPlayer.setDataSource(previewUrl)
-       mediaPlayer.prepareAsync()
-       mediaPlayer.setOnPreparedListener {
-           btnPlay.isEnabled = true
-           playerState = STATE_PREPARED
-       }
-        mediaPlayer.setOnCompletionListener {
-            btnPlay.visibility = View.VISIBLE
-            btnPause.visibility = View.GONE
-            playerState = STATE_PREPARED
-            mainThreadHandler?.removeCallbacks(updatePlayTimeRunnable)
-            trackTimeMillis.text = "00:00"
-        }*/
 
 
    }
 
     private fun startPlayer() {
-        /*mediaPlayer.start()
-        playerState = STATE_PLAYING*/
 
         playerInteractor.startPlayer()
         btnPause.visibility = View.VISIBLE
@@ -158,8 +140,6 @@ class PlayeerActivity : AppCompatActivity() {
     }
 
     private fun pausePlayer() {
-        /*mediaPlayer.pause()
-        playerState = STATE_PAUSED*/
 
         playerInteractor.pausePlayer()
         btnPlay.visibility = View.VISIBLE
@@ -171,7 +151,6 @@ class PlayeerActivity : AppCompatActivity() {
     private fun updatePlayTime(): Runnable {
         return object : Runnable {
             override fun run() {
-                //trackTimeMillis.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(mediaPlayer.currentPosition)
                 trackTimeMillis.text = playerInteractor.getPlayTime()
                 mainThreadHandler?.postDelayed(this, DELAY)
             }
