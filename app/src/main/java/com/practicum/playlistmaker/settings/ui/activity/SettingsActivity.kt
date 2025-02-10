@@ -11,6 +11,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.settings.ui.view_model.SettingsViewModel
+import com.practicum.playlistmaker.sharing.domain.EmailData
 
 class SettingsActivity : AppCompatActivity() {
 
@@ -44,17 +45,22 @@ class SettingsActivity : AppCompatActivity() {
 
         val tvWriteSupport = findViewById<TextView>(R.id.tvWriteSupport)
         tvWriteSupport.setOnClickListener {
-           viewModel.openSupport()
+            val eMailData: EmailData = EmailData(
+                message = getString(R.string.settings_mail_message),
+                subject = getString(R.string.settings_mail_subject),
+                mail = getString(R.string.settings_mail)
+            )
+            viewModel.openSupport(eMailData)
         }
 
         val tvAgreement = findViewById<TextView>(R.id.tvAgreement)
         tvAgreement.setOnClickListener {
-            viewModel.openTerms()
+            viewModel.openTerms(getString(R.string.settings_agreement))
         }
 
         val tvShare = findViewById<TextView>(R.id.tvShare)
         tvShare.setOnClickListener {
-          viewModel.shareApp()
+          viewModel.shareApp(getString(R.string.settings_share))
         }
 
 

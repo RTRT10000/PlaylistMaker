@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.AP
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.practicum.playlistmaker.App
+import com.practicum.playlistmaker.sharing.domain.EmailData
 
 class SettingsViewModel(
     application: Application,
@@ -36,16 +37,16 @@ class SettingsViewModel(
         }
     }
 
-    fun shareApp() {
-        sharingInteractor.shareApp()
+    fun shareApp(shareAppLink: String) {
+        sharingInteractor.shareApp(shareAppLink)
     }
 
-    fun openTerms() {
-        sharingInteractor.openTerms()
+    fun openTerms(termLink: String) {
+        sharingInteractor.openTerms(termLink)
     }
 
-    fun openSupport() {
-        sharingInteractor.openSupport()
+    fun openSupport(eMailData: EmailData) {
+        sharingInteractor.openSupport(eMailData)
     }
 
     fun switchTheme(checked: Boolean) {

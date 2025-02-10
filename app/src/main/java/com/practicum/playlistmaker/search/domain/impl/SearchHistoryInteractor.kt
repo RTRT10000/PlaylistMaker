@@ -10,9 +10,7 @@ import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.player.ui.activity.PlayeerActivity
 import com.practicum.playlistmaker.search.domain.api.OnTrackItemClickListener
 
-class SearchHistory(
-    val context: Context
-) : OnTrackItemClickListener {
+class SearchHistoryInteractor() : OnTrackItemClickListener {
 
 
     companion object {

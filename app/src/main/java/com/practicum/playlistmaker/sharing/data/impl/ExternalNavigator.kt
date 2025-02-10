@@ -3,7 +3,7 @@ package com.practicum.playlistmaker.sharing.data.impl
 import android.app.Application
 import android.content.Intent
 import android.net.Uri
-import com.practicum.playlistmaker.sharing.data.EmailData
+import com.practicum.playlistmaker.sharing.domain.EmailData
 
 class ExternalNavigator(var application: Application) {
 
@@ -11,7 +11,6 @@ class ExternalNavigator(var application: Application) {
         val shareIntent = Intent(Intent.ACTION_SEND)
         shareIntent.type = "text/plain"
         shareIntent.putExtra(Intent.EXTRA_TEXT, shareLink)
-        shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         application.startActivity(Intent.createChooser(shareIntent,"Share with"))
     }
 

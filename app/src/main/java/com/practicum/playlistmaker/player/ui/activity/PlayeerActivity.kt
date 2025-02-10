@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.google.gson.Gson
 import com.practicum.playlistmaker.creator.Creator
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.player.domain.state.PlayeerState
@@ -50,7 +51,7 @@ class PlayeerActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_audioplayer)
 
-
+        val gson = Gson()
 
 
         val playerArrowBack: ImageButton = findViewById(R.id.backButton)
@@ -80,7 +81,7 @@ class PlayeerActivity : AppCompatActivity() {
         val json = intent.getStringExtra(TRACK).toString()
 
 
-        val track: Track = Creator.getGson().fromJson(json, Track::class.java)
+        val track: Track = gson.fromJson(json, Track::class.java)
 
         viewModel = ViewModelProvider(this, PlayeerViewModel.getViewModelFactory(track.previewUrl))[PlayeerViewModel::class.java]
 

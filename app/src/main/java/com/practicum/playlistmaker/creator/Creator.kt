@@ -31,7 +31,7 @@ import com.practicum.playlistmaker.main.ui.PLAYLIST_PREFERENCES
 object Creator {
 
     private lateinit var application: Application
-    private val gson = Gson()
+
 
     fun initApplication(application: Application) {
         Creator.application = application
@@ -42,10 +42,7 @@ object Creator {
     }
 
     fun getSharingInteractor(): SharingInteractor {
-        return SharingInteractorImpl(
-            externalNavigator = getExternalNavigator(),
-            context = application
-        )
+        return SharingInteractorImpl(externalNavigator = getExternalNavigator())
     }
 
     fun provideSharedPrefernces(): SharedPreferences {
@@ -72,9 +69,6 @@ object Creator {
          return HistoryTracksListRepositoryImpl(getStoragePreferences())
     }
 
-    fun getGson(): Gson {
-        return gson
-    }
 
     fun getSettingsRepository(): SettingsRepository {
         return SettingsRepositoryImpl(getSettingsStoragePreferences())

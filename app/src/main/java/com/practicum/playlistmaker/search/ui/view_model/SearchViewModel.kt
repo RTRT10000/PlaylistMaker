@@ -4,7 +4,6 @@ import android.app.Application
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -12,9 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.practicum.playlistmaker.search.domain.api.TracksInteractor
-import com.practicum.playlistmaker.search.domain.impl.SearchHistory
+import com.practicum.playlistmaker.search.domain.impl.SearchHistoryInteractor
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.creator.Creator
 import com.practicum.playlistmaker.search.domain.api.OnTrackItemClickListener
 import com.practicum.playlistmaker.search.domain.models.Track
@@ -23,7 +21,7 @@ import com.practicum.playlistmaker.search.domain.state.TracksListState
 
 class SearchViewModel(
     application: Application,
-    private val searchHistory: SearchHistory,
+    private val searchHistoryInteractor: SearchHistoryInteractor,
     private val tracksInteractor: TracksInteractor
 ) : AndroidViewModel(application) {
 
@@ -33,7 +31,7 @@ class SearchViewModel(
     private var trackListLiveData = MutableLiveData<List<Track>>()
     fun getTrackListLiveData(): LiveData<List<Track>> = trackListLiveData
 
-    private var historyTrackListLiveData = MutableLiveData(searchHistory.getHistoryTrackList())
+    private var historyTrackListLiveData = MutableLiveData(searchHistoryInteractor.getHistoryTrackList())
     fun getHistoryTrackListLiveData(): LiveData<ArrayList<Track>> = historyTrackListLiveData
 
     private var stateLiveData = MutableLiveData<TracksListState>()
@@ -46,7 +44,7 @@ class SearchViewModel(
             initializer {
                 SearchViewModel(
                     this[APPLICATION_KEY] as Application,
-                    SearchHistory(this[APPLICATION_KEY] as Context),
+                    SearchHistoryInteractor(),
                     Creator.getTracksInteractor()
                 )
             }
@@ -75,14 +73,14 @@ class SearchViewModel(
     }
 
     fun getOnTrackItemClickListener(): OnTrackItemClickListener {
-        return searchHistory
+        return searchHistoryInteractor
     }
 
 
 
     fun clearHistotyTrackList(isInputNullOrEmpty: Boolean) {
-        searchHistory.historyTracksListRepository.clearHistoryTrackList()
-        historyTrackListLiveData.postValue(searchHistory.getHistoryTrackList())
+        searchHistoryInteractor.historyTracksListRepository.clearHistoryTrackList()
+        historyTrackListLiveData.postValue(searchHistoryInteractor.getHistoryTrackList())
         stateLiveData.postValue(TracksListState.Input(isInputNullOrEmpty))
     }
 
