@@ -1,8 +1,6 @@
 package com.practicum.playlistmaker.search.ui.activity
 
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -16,14 +14,14 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.practicum.playlistmaker.R
-import com.practicum.playlistmaker.search.domain.api.TracksInteractor
 import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.search.domain.state.TracksListState
 import com.practicum.playlistmaker.search.ui.view_model.SearchViewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
+
 
 
 class SearchActivity : AppCompatActivity() {
@@ -53,8 +51,6 @@ class SearchActivity : AppCompatActivity() {
 
 
 
-    private lateinit var tracksInteractor: TracksInteractor
-
 
     companion object {
        const val INPUT_TEXT = "INPUT_TEXT"
@@ -65,7 +61,7 @@ class SearchActivity : AppCompatActivity() {
 
     private var inputText: String = ""
 
-    private lateinit var viewModel: SearchViewModel
+    private  val viewModel: SearchViewModel by viewModel()
 
 
 
@@ -73,8 +69,6 @@ class SearchActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
-
-        viewModel = ViewModelProvider(this, SearchViewModel.getViewModelFactory())[SearchViewModel::class.java]
 
         placeholderNotFound = findViewById(R.id.ivPlaceHolderNotFound)
         placeholderConnection = findViewById(R.id.ivPlaceHolderConnect)

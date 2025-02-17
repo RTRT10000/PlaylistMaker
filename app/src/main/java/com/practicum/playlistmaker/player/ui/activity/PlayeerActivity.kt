@@ -2,25 +2,25 @@ package com.practicum.playlistmaker.player.ui.activity
 
 import android.content.Context
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.gson.Gson
-import com.practicum.playlistmaker.creator.Creator
 import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.player.domain.state.PlayeerState
 import com.practicum.playlistmaker.player.ui.view_model.PlayeerViewModel
 import com.practicum.playlistmaker.search.domain.models.Track
 import java.text.SimpleDateFormat
 import java.util.Locale
+import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.core.parameter.parametersOf
+import org.koin.android.ext.android.inject
+
 
 class PlayeerActivity : AppCompatActivity() {
 
@@ -34,24 +34,17 @@ class PlayeerActivity : AppCompatActivity() {
 
     private lateinit var btnPause: ImageButton
     private lateinit var btnPlay: ImageButton
-    private var json: String = ""
-    private var  previewUrl: String = ""
     private lateinit var trackTimeMillis: TextView
 
 
-
-    private val playerInteractor = Creator.getPlayerInteractor()
-
-    private lateinit var viewModel: PlayeerViewModel
-
-
+    private lateinit var  viewModel: PlayeerViewModel
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_audioplayer)
 
-        val gson = Gson()
+        val gson: Gson by inject()
 
 
         val playerArrowBack: ImageButton = findViewById(R.id.backButton)
@@ -83,7 +76,11 @@ class PlayeerActivity : AppCompatActivity() {
 
         val track: Track = gson.fromJson(json, Track::class.java)
 
-        viewModel = ViewModelProvider(this, PlayeerViewModel.getViewModelFactory(track.previewUrl))[PlayeerViewModel::class.java]
+        val viewModel: PlayeerViewModel by viewModel {
+            parametersOf(track.previewUrl)
+        }
+
+        this.viewModel = viewModel
 
 
        val artworkUrl512 = track.getCoverArtwork()
@@ -93,8 +90,6 @@ class PlayeerActivity : AppCompatActivity() {
             .centerCrop()
             .transform(RoundedCorners(dpToPx(8f,this.applicationContext)))
             .into(cover)
-
-        previewUrl = track.previewUrl
 
         trackName.text = track.trackName
         artistName.text = track.artistName
@@ -173,48 +168,4 @@ class PlayeerActivity : AppCompatActivity() {
 }
 
 
-/*private fun pausePlayer() {
-
-    playerInteractor.pausePlayer()
-    btnPlay.visibility = View.VISIBLE
-    btnPause.visibility = View.GONE
-    mainThreadHandler?.removeCallbacks(updatePlayTimeRunnable)
-}*/
-
-
-/*private fun updatePlayTime(): Runnable {
-    return object : Runnable {
-        override fun run() {
-            trackTimeMillis.text = playerInteractor.getPlayTime()
-            mainThreadHandler?.postDelayed(this, DELAY)
-        }
-    }
-}*/
-
-
-/*private fun startPlayer() {
-
-    playerInteractor.startPlayer()
-    btnPause.visibility = View.VISIBLE
-    btnPlay.visibility = View.GONE
-    mainThreadHandler?.post(updatePlayTimeRunnable)
-}*/
-
-/*private fun preparePlayer() {
-
-    val onPrepare = {
-        btnPlay.isEnabled = true
-    }
-
-    val onComplete = {
-        btnPlay.visibility = View.VISIBLE
-        btnPause.visibility = View.GONE
-        mainThreadHandler?.removeCallbacks(updatePlayTimeRunnable)
-        trackTimeMillis.text = SimpleDateFormat("mm:ss", Locale.getDefault()).format(0)
-    }
-
-    playerInteractor.preparePlayer(previewUrl, onPrepare, onComplete)
-
-
-}*/
 

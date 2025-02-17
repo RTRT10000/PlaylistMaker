@@ -1,6 +1,5 @@
 package com.practicum.playlistmaker.search.data.impl
 
-import com.practicum.playlistmaker.creator.Creator
 import com.practicum.playlistmaker.search.data.NetworkClient
 import com.practicum.playlistmaker.search.data.dto.TracksRequest
 import com.practicum.playlistmaker.search.data.dto.TracksResponse

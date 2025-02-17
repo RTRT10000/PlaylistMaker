@@ -5,23 +5,23 @@ import android.content.Intent
 import android.os.Handler
 import android.os.Looper
 import com.google.gson.Gson
-import com.practicum.playlistmaker.creator.Creator
 import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.player.ui.activity.PlayeerActivity
+import com.practicum.playlistmaker.search.domain.api.HistoryTracksListRepository
 import com.practicum.playlistmaker.search.domain.api.OnTrackItemClickListener
 
-class SearchHistoryInteractor() : OnTrackItemClickListener {
+class SearchHistoryInteractor(
+    private val handler: Handler,
+    val historyTracksListRepository: HistoryTracksListRepository
+) : OnTrackItemClickListener {
 
 
     companion object {
         private const val CLOCK_DEBOUNCE_DELAY = 1000L
     }
 
-    private val handler = Handler(Looper.getMainLooper())
+
     private var isClickAllowed = true
-    val historyTracksListRepository = Creator.getHistoryTracksListRepository()
-
-
 
     override fun onTrackItemClick(trackItem: Track, context: Context) {
 
