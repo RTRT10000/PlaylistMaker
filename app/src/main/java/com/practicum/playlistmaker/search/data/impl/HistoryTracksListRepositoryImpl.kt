@@ -1,16 +1,15 @@
 package com.practicum.playlistmaker.search.data.impl
 
 import com.google.gson.Gson
-import com.practicum.playlistmaker.creator.Creator
 import com.practicum.playlistmaker.search.data.StoragePreferences
 import com.practicum.playlistmaker.search.domain.api.HistoryTracksListRepository
 import com.practicum.playlistmaker.search.domain.models.Track
 
 
-class HistoryTracksListRepositoryImpl(private val storagePreferences: StoragePreferences) :
-    HistoryTracksListRepository {
-
-    val gson = Gson()
+class HistoryTracksListRepositoryImpl(
+    private val storagePreferences: StoragePreferences,
+    private val gson: Gson
+) : HistoryTracksListRepository {
 
     override fun getHistoryTrackList(): ArrayList<Track> {
         val json = storagePreferences.getStringFromStorage()

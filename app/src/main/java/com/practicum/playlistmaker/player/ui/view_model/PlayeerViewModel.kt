@@ -8,11 +8,11 @@ import android.view.View
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
-import com.practicum.playlistmaker.creator.Creator
 import com.practicum.playlistmaker.player.domain.api.PlayerInteractor
 import com.practicum.playlistmaker.player.domain.state.PlayeerState
 import com.practicum.playlistmaker.search.domain.models.Track
@@ -21,10 +21,9 @@ import java.util.Locale
 
 
 class PlayeerViewModel(
-    application: Application,
     private val playeerInteractor: PlayerInteractor,
     private val previewUrl: String
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
     private var mainThreadHandler = Handler(Looper.getMainLooper())
     private val updatePlayTimeRunnable = updatePlayTime()
@@ -40,16 +39,6 @@ class PlayeerViewModel(
 
 
     companion object {
-        fun getViewModelFactory(previewUrl: String): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                PlayeerViewModel(
-                    this[APPLICATION_KEY] as Application,
-                    Creator.getPlayerInteractor(),
-                    previewUrl,
-                )
-            }
-        }
-
         private const val DELAY = 300L
     }
 
@@ -102,24 +91,5 @@ class PlayeerViewModel(
 
 
 
-/*private fun pausePlayer() {
-
-    playerInteractor.pausePlayer()
-    btnPlay.visibility = View.VISIBLE
-    btnPause.visibility = View.GONE
-    mainThreadHandler?.removeCallbacks(updatePlayTimeRunnable)
-}*/
-
-
-/*
-private fun updatePlayTime(): Runnable {
-    return object : Runnable {
-        override fun run() {
-            trackTimeMillis.text = playerInteractor.getPlayTime()
-            mainThreadHandler?.postDelayed(this, DELAY)
-        }
-    }
-}
-*/
 
 

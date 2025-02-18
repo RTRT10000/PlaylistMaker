@@ -6,7 +6,9 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 
-class PlayerRepositoryImpl : PlayerRepository {
+class PlayerRepositoryImpl(
+    private var mediaPlayer: MediaPlayer
+) : PlayerRepository {
 
     companion object {
         private const val STATE_DEFAULT = 0
@@ -15,7 +17,7 @@ class PlayerRepositoryImpl : PlayerRepository {
         private const val STATE_PAUSED = 3
     }
 
-    private var mediaPlayer = MediaPlayer()
+
     private var playerState = STATE_DEFAULT
 
 

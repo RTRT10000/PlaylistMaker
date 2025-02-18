@@ -10,7 +10,6 @@ import com.practicum.playlistmaker.R
 import com.practicum.playlistmaker.search.ui.activity.SearchActivity
 import com.practicum.playlistmaker.settings.ui.activity.SettingsActivity
 
-const val PLAYLIST_PREFERENCES = "playlist_preferences"
 const val DARK_THEME = "dark_theme"
 const val SEARCH_HISTORY_LIST = "search_history_list"
 

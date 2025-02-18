@@ -7,23 +7,22 @@ import android.os.Looper
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.practicum.playlistmaker.search.domain.api.TracksInteractor
 import com.practicum.playlistmaker.search.domain.impl.SearchHistoryInteractor
 import androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.Companion.APPLICATION_KEY
-import com.practicum.playlistmaker.creator.Creator
 import com.practicum.playlistmaker.search.domain.api.OnTrackItemClickListener
 import com.practicum.playlistmaker.search.domain.models.Track
 import com.practicum.playlistmaker.search.domain.state.TracksListState
 
 
 class SearchViewModel(
-    application: Application,
     private val searchHistoryInteractor: SearchHistoryInteractor,
     private val tracksInteractor: TracksInteractor
-) : AndroidViewModel(application) {
+) : ViewModel() {
 
     private val handler = Handler(Looper.getMainLooper())
     private val searchRunnable = Runnable { searchRequest(searchString) }
@@ -40,16 +39,6 @@ class SearchViewModel(
     private var searchString: String = ""
 
     companion object {
-        fun getViewModelFactory(): ViewModelProvider.Factory = viewModelFactory {
-            initializer {
-                SearchViewModel(
-                    this[APPLICATION_KEY] as Application,
-                    SearchHistoryInteractor(),
-                    Creator.getTracksInteractor()
-                )
-            }
-        }
-
         private const val SEARCH_DEBOUNCE_DELAY = 2000L
     }
 
@@ -91,7 +80,7 @@ class SearchViewModel(
         val consumer = object : TracksInteractor.TracksConsumer {
             override fun consume(foundTracks: List<Track>?, errorMessage: String?) {
                 if (foundTracks != null) {
-                    trackListLiveData.postValue(foundTracks)
+                    trackListLiveData.postValue(foundTracks!!)
                     stateLiveData.postValue(TracksListState.ContentTracks)
                 } else  if (errorMessage == "Tracks Not Found") {
                     trackListLiveData.postValue(ArrayList<Track>())
